@@ -54,6 +54,7 @@ public:
     int serialport_readbyte(char *byte);
     int serialport_write(const char* str, int length);
     int serialport_read_until(char* buf, char until, int timeout = 5000);
+    int serialport_read(char* buf, int length); //Linux and Unix Only
     //int serialport_restoresettings(SERIALPORT_TERMIOS *oldsettings);
     /**
         Close a success-opened connection, return 0 on success.

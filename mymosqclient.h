@@ -18,6 +18,8 @@
 #include <vector>
 #include "Serial.h"
 //#define DEAMON
+#define PORT "/dev/ttyUSB0"
+#define BAUDRATE 115200
 
 
 class MQTTSerialInterface : public mosqpp::mosquittopp

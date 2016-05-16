@@ -24,16 +24,16 @@ MQTTSerialInterface::MQTTSerialInterface(const char* id, const char* host, int p
     mosqpp::lib_init();
     connect(host, port, keepalive);
     loop_start();
-    serialPort = new Serial("/dev/ttyAM0", 115200);
-    serialData = new char[34];
-    for(int i=0; i<34; i++)
+    serialPort = new Serial(PORT, BAUDRATE);
+    serialData = new char[35];
+    for(int i=0; i<35; i++)
     {
-        serialData[i] = 0;
+        serialData[i] = 0x00;
     }
     //The things that are always the same
     serialData[0] = 0x40; //that what is called "preamble" in Go Code
     serialData[1] = 0xFE; //Source/Clientaddress in Go Code
-    serialData[2] = 0x10; //Controlleradress
+    serialData[2] = 0xFF; //Controlleradress
     serialData[3] = 0x1E; //Lenght of the Payload
 }
 
@@ -85,7 +85,6 @@ void MQTTSerialInterface::on_message(const mosquitto_message *message)
     logmsg << "Payload/Message: " << payload << "\n";
     log(logmsg);
     evaluateMQTT(std::string(payload), std::string(message->topic));
-
 }
 
 void MQTTSerialInterface::on_publish(int mid)
@@ -126,11 +125,14 @@ void MQTTSerialInterface::setcolor(int color, int lightn)
         {
             //Offset of 4 because color begin after preamble, Clientaddress, Controlleraddress and Payloadlenght, lightn-1 because n is not a zero based counter it is a 1 based counter
             // +i : When i is 0 it addresses the red byte, when i is 1 addresses the green byte and when i is 2 it addresses the blue byte TODO: Check if the color position is correct
-            *(serialData + 4 + (lightn-1) + i) = (char) (color>>((2-i)*2)) & 0xFF; // TODO Clear if i-2 or i only
+            *(serialData + 4 + 3*(lightn-1) + i) = (char) (color>>((2-i)*2)) & 0xFF; // TODO Clear if i-2 or i only
             // example color int: 00 f8 34 23 (with i == 1)
             // after shift int: 00 00 f8 34
             // remove the rest with and 0xFF: 00 00 00 34
             // typecast to char to prevent writing on other bytes: 34
+            char buf[30];
+            strncpy(buf, serialData+4, 30);
+            serialData[34] = Crc8(buf, 30);
         }
     }
 }
@@ -158,7 +160,7 @@ void MQTTSerialInterface::evaluateMQTT(std::string payload, std::string topic)
 {
     if(topic == "/kitchen/shutdown/")
     {
-        for(int i=4; i<34; i++)
+        for(int i=4; i<35; i++)
         {
             serialData[i] = 0;
         }
@@ -174,11 +176,10 @@ void MQTTSerialInterface::evaluateMQTT(std::string payload, std::string topic)
         lampnumber >> lampnb;
         colorcode << std::hex << temp[1]; //TODO: Check if temp[1] can be converted to std::hex;
         colorcode >> color;
-
         setcolor(color, lampnb);
     }
-    if(serialPort->Getfd())
+    if(serialPort->Getfd() != -1)
     {
-        serialPort->serialport_write(serialData, 34);
+        serialPort->serialport_write(serialData, 35);
     }
 }

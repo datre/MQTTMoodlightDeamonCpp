@@ -6,7 +6,7 @@
 using namespace std;
 int keepalive = 120;
 int port = 1883;
-char host[] = "raspi2";
+char host[] = "localhost";
 char topic[] = "kitchen/switches/#";
 char deamon_name_and_id[] = "MQTTMoodlightDeamon";
 int qos = 1;

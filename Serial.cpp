@@ -256,7 +256,6 @@ SERIALPORT_HANDLE Serial::serialport_init(const char *serialport, int baud){
     }
     }
 #endif
-
     return fd;
 }
 /*
@@ -276,6 +275,28 @@ int Serial::serialport_restoresettings(SERIALPORT_TERMIOS *oldsettings){
     return 0;
 }
 */
+
+int Serial::serialport_read(char* buf, int length)
+{
+    //Linux and Unix only
+    char b[2] = " ";
+    int i=0;
+    do {
+        int n = read(fd, b, 1);  // read a char at a time
+        if( n == -1)
+        {
+            continue;
+        }
+        else
+        {
+            buf[i++] = b[0];
+        }
+        /* TODO add some code to check the length of the buffer is not exceeded */
+    } while(i<length);
+
+    buf[i] = '\0';  // null terminate the string
+    return 0;
+}
 
 
 int Serial::serialport_close(){
