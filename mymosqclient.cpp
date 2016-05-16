@@ -33,7 +33,7 @@ MQTTSerialInterface::MQTTSerialInterface(const char* id, const char* host, int p
     //The things that are always the same
     serialData[0] = 0x40; //that what is called "preamble" in Go Code
     serialData[1] = 0xFE; //Source/Clientaddress in Go Code
-    serialData[2] = 0xFF; //Controlleradress
+    serialData[2] = 0x10; //Controlleradress
     serialData[3] = 0x1E; //Lenght of the Payload
 }
 
