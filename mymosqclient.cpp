@@ -24,6 +24,7 @@ MQTTSerialInterface::MQTTSerialInterface(const char* id, const char* host, int p
     mosqpp::lib_init();
     connect(host, port, keepalive);
     loop_start();
+
     serialPort = new Serial(PORT, BAUDRATE);
     serialData = new char[35];
     for(int i=0; i<35; i++)
@@ -51,6 +52,8 @@ void MQTTSerialInterface::on_connect(int rc)
     std::stringstream logmsg;
     logmsg << "Connected, rc: " << rc << "\n";
     log(logmsg);
+    subscribe(NULL, TOPIC, qos);
+    subscribe(NULL, "kitchen/shutdown/", qos);
 }
 
 void MQTTSerialInterface::on_disconnect(int rc)
@@ -158,7 +161,7 @@ char MQTTSerialInterface::Crc8(const char *data, int len)//TODO Check if that wo
 
 void MQTTSerialInterface::evaluateMQTT(std::string payload, std::string topic)
 {
-    if(topic == "/kitchen/shutdown/")
+    if(topic == "kitchen/shutdown/")
     {
         for(int i=4; i<35; i++)
         {

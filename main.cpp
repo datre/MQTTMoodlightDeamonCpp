@@ -6,10 +6,7 @@
 using namespace std;
 int keepalive = 120;
 int port = 1883;
-char host[] = "localhost";
-char topic[] = "kitchen/switches/#";
 char deamon_name_and_id[] = "MQTTMoodlightDeamon";
-int qos = 1;
 
 int main()
 {
@@ -27,8 +24,9 @@ int main()
     close(STDOUT_FILENO);
     close(STDERR_FILENO);
 #endif // DEAMON
-    MQTTSerialInterface *client = new MQTTSerialInterface(deamon_name_and_id, host, port, keepalive);
-    client->subscribe(NULL, topic, qos);
+    MQTTSerialInterface *client = new MQTTSerialInterface(deamon_name_and_id, HOST , port, keepalive);
+    client->subscribe(NULL, TOPIC, qos);
+    client->subscribe(NULL, "kitchen/shutdown/", qos);
     while(true)
     {
         usleep(1000000);

@@ -20,6 +20,10 @@
 //#define DEAMON
 #define PORT "/dev/ttyUSB0"
 #define BAUDRATE 115200
+#define HOST "localhost"
+#define TOPIC  "kitchen/switches/#"
+#define qos 1
+
 
 
 class MQTTSerialInterface : public mosqpp::mosquittopp
