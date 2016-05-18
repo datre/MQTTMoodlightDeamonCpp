@@ -128,7 +128,7 @@ void MQTTSerialInterface::setcolor(int color, int lightn)
         {
             //Offset of 4 because color begin after preamble, Clientaddress, Controlleraddress and Payloadlenght, lightn-1 because n is not a zero based counter it is a 1 based counter
             // +i : When i is 0 it addresses the red byte, when i is 1 addresses the green byte and when i is 2 it addresses the blue byte TODO: Check if the color position is correct
-            *(serialData + 4 + 3*(lightn-1) + i) = (char) (color>>((2-i)*2)) & 0xFF; // TODO Clear if i-2 or i only
+            *(serialData + 4 + 3*(lightn-1) + i) = (char) (color>>((2-i)*8)) & 0xFF; // TODO Clear if i-2 or i only
             // example color int: 00 f8 34 23 (with i == 1)
             // after shift int: 00 00 f8 34
             // remove the rest with and 0xFF: 00 00 00 34
