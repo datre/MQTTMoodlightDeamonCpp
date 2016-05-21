@@ -181,7 +181,7 @@ void MQTTSerialInterface::evaluateMQTT(std::string payload, std::string topic)
         colorcode >> color;
         setcolor(color, lampnb);
     }
-    if(serialPort->Getfd() != -1)
+    if(serialPort->Getfd() != -1)//TODO check if this is always working correct
     {
         serialPort->serialport_write(serialData, 35);
     }

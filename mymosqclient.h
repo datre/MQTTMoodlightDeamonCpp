@@ -18,7 +18,7 @@
 #include <vector>
 #include "Serial.h"
 //#define DEAMON
-#define PORT "/dev/ttyUSB0"
+#define PORT "/dev/ttyAMA0"
 #define BAUDRATE 115200
 #define HOST "localhost"
 #define TOPIC  "kitchen/switches/#"
