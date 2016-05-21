@@ -133,10 +133,10 @@ void MQTTSerialInterface::setcolor(int color, int lightn)
             // after shift int: 00 00 f8 34
             // remove the rest with and 0xFF: 00 00 00 34
             // typecast to char to prevent writing on other bytes: 34
-            char buf[30];
-            strncpy(buf, serialData+4, 30);
-            serialData[34] = Crc8(buf, 30);
         }
+        char buf[30];
+        strncpy(buf, serialData+4, 30);
+        serialData[34] = Crc8(buf, 30);
     }
 }
 
