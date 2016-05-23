@@ -134,9 +134,9 @@ void MQTTSerialInterface::setcolor(int color, int lightn)
             // remove the rest with and 0xFF: 00 00 00 34
             // typecast to char to prevent writing on other bytes: 34
         }
-        char buf[30];
-        strncpy(buf, serialData+4, 30);
-        serialData[34] = Crc8(buf, 30);
+        //char buf[30];
+        //strncpy(buf, , 30);
+        serialData[34] = Crc8(serialData, 34);
     }
 }
 
@@ -184,5 +184,6 @@ void MQTTSerialInterface::evaluateMQTT(std::string payload, std::string topic)
     if(serialPort->Getfd() != -1)//TODO check if this is always working correct
     {
         serialPort->serialport_write(serialData, 35);
+	std::cout << "\nWritten to Serial Port\n";
     }
 }
