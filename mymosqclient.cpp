@@ -1,5 +1,22 @@
 #include "mymosqclient.h"
 
+
+struct HexCharStruct
+{
+  unsigned char c;
+  HexCharStruct(unsigned char _c) : c(_c) { }
+};
+
+inline std::ostream& operator<<(std::ostream& o, const HexCharStruct& hs)
+{
+  return (o << std::hex << (int)hs.c);
+}
+
+inline HexCharStruct hex(unsigned char _c)
+{
+  return HexCharStruct(_c);
+}
+
 std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
     std::stringstream ss(s);
     std::string item;
@@ -137,6 +154,13 @@ void MQTTSerialInterface::setcolor(int color, int lightn)
         //char buf[30];
         //strncpy(buf, , 30);
         serialData[34] = Crc8(serialData, 34);
+
+	std::cout << "CRC8: ";
+	for(int i=0; i<35; i++)
+	{
+	    std::cout << hex(serialData[i]);
+	}
+	std::cout << "\n";
     }
 }
 
