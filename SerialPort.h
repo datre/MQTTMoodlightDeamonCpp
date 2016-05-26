@@ -43,10 +43,10 @@ public:
 	int write_some(const std::string &buf);
 	int write_some(const char *buf, const int &size);
 
-	static int get_port_number();
-	static std::string get_port_name(const unsigned int &idx);
-	static std::vector<std::string> get_port_names();
-	static void print_devices();
+	//static int get_port_number();
+	//static std::string get_port_name(const unsigned int &idx);
+	//static std::vector<std::string> get_port_names();
+	//static void print_devices();
 
 protected:
 	virtual void async_read_some_();

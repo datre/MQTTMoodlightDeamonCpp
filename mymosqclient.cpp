@@ -25,7 +25,8 @@ MQTTSerialInterface::MQTTSerialInterface(const char* id, const char* host, int p
     connect(host, port, keepalive);
     loop_start();
 
-    serialPort = new Serial(PORT, BAUDRATE);
+    serialPort = new SerialPort();
+    serialPort->start(PORT, BAUDRATE);
     serialData = new char[35];
     for(int i=0; i<35; i++)
     {
@@ -169,8 +170,7 @@ void MQTTSerialInterface::evaluateMQTT(std::string payload, std::string topic)
         }
 
     }
-    else
-    {
+    else {
         int color, lampnb;
         std::stringstream colorcode, lampnumber;
         std::vector<std::string> temp = split(payload, '#'); //example Payload: 2#ff88aa
@@ -181,8 +181,6 @@ void MQTTSerialInterface::evaluateMQTT(std::string payload, std::string topic)
         colorcode >> color;
         setcolor(color, lampnb);
     }
-    if(serialPort->Getfd() != -1)
-    {
-        serialPort->serialport_write(serialData, 35);
-    }
+    serialPort->write_some(serialData, 35);
+
 }

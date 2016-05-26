@@ -1,7 +1,5 @@
-#include "StdAfx.h"
 
-#include <Setupapi.h>
-#pragma comment(lib, "Setupapi.lib")
+//#pragma comment(lib, "Setupapi.lib")
 
 #include "SerialPort.h"
 
@@ -23,7 +21,7 @@ void SerialPort::end_of_line_char(const char &c)
 {
 	this->end_of_line_char_ = c;
 }
-
+/*
 std::vector<std::string> SerialPort::get_port_names()
 {
 	std::vector<std::string> names;
@@ -65,11 +63,11 @@ std::vector<std::string> SerialPort::get_port_names()
 
 		hKey = ::SetupDiOpenDevRegKey(hdevinfo, &devinfo_data, DICS_FLAG_GLOBAL, 0, DIREG_DEV, KEY_READ);
 		if (!hKey) continue;
-	
+
 		size = sizeof(port_name);
 		rv = ::RegQueryValueEx(hKey, "PortName", 0, &type, (LPBYTE)&port_name, &size);
 		::RegCloseKey(hKey);
-	
+
 		names.push_back(port_name);
 	}
 
@@ -77,21 +75,22 @@ std::vector<std::string> SerialPort::get_port_names()
 
 	return names;
 }
-
+*/
+/*
 int SerialPort::get_port_number()
 {
 	std::vector<std::string> names = get_port_names();
 	return names.size();
-}
-
+}*/
+/*
 std::string SerialPort::get_port_name(const unsigned int &idx)
 {
 	std::vector<std::string> names = get_port_names();
 	if (idx >= names.size()) return std::string();
 	return names[idx];
-}
+}*/
 
-void SerialPort::print_devices()
+/*void SerialPort::print_devices()
 {
 	std::cout << "SerialPort::print_devices()" << std::endl;
 	int n = SerialPort::get_port_number();
@@ -99,7 +98,7 @@ void SerialPort::print_devices()
 		std::string name = SerialPort::get_port_name(i);
 		std::cout << "\t" << name.c_str() << std::endl;
 	}
-}
+}*/
 
 bool SerialPort::start(const char *com_port_name, int baud_rate)
 {
