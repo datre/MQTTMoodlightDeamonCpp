@@ -16,7 +16,7 @@
 #include <syslog.h>
 #include <string.h>
 #include <vector>
-#include "Serial.h"
+#include "SerialPort.h"
 //#define DEAMON
 #define PORT "/dev/ttyAMA0"
 #define BAUDRATE 115200
@@ -45,7 +45,7 @@ private:
     void setcolor(int color, int lightn);
     void evaluateMQTT(std::string payload, std::string topic);
     char Crc8(const char *data, int len);
-    Serial *serialPort;
+    SerialPort *serialPort;
     char *serialData;
 };
 
